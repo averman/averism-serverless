@@ -8,6 +8,18 @@ provider:
   runtime: nodejs14.x
   deploymentBucket:
     name: averism-serverless
+  httpApi:
+    name: user-api-service
+    payload: '2.0'
+    disableDefaultEndpoint: true
+    cors: true
+    authorizers:
+      cognitoAuth:
+        type: 'cognito'
+        userPoolArn: 'arn:aws:cognito-idp:ap-southeast-1:368894314638:userpool/ap-southeast-1_1w7XYu9hm'
+        userPoolClientId: '73g7s1vkbgf7vgknimupgaghsn'
+        userPoolDomain: 'averman.auth.ap-southeast-1.amazoncognito.com'
+        scope: 'openid email profile'
 
 functions:
   hello:
@@ -16,19 +28,16 @@ functions:
       - httpApi:
           path: /
           method: get
-    authorizer:
-      cognitoAuth:
-        type: 'cognito'
-        userPoolArn: 'arn:aws:cognito-idp:ap-southeast-1:368894314638:userpool/ap-southeast-1_1w7XYu9hm'
-        userPoolClientId: '73g7s1vkbgf7vgknimupgaghsn'
-        userPoolDomain: 'averman.auth.ap-southeast-1.amazoncognito.com'
-        scope: 'openid email profile'
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId: { Ref: cognitoAuth }
 custom:
   customDomain:
     domainName: api.averism.com
     basePath: ''
     createRoute53Record: true
     certificateName: 'api.averism.com'
+    autoDomain: true
 plugins:
   - serverless-plugin-typescript
   - serverless-deployment-bucket
