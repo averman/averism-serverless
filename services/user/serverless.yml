@@ -1,6 +1,6 @@
 org: averman
 app: averism
-service: averism
+service: user
 frameworkVersion: '3'
 
 provider:
