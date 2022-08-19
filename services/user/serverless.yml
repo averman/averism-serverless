@@ -25,10 +25,8 @@ functions:
         scope: 'openid email profile'
 custom:
   customDomain:
-    domainName: sls.averism.com
-    basePath: ''
-    stage: 'prod'
-    createRoute53Record: true
+    domainName: api.averism.com
+    basePath: 'user'
 plugins:
   - serverless-plugin-typescript
   - serverless-deployment-bucket
