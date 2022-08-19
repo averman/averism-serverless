@@ -6,6 +6,8 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs14.x
+  deploymentBucket:
+    name: averism-serverless
 
 functions:
   hello:
@@ -14,6 +16,9 @@ functions:
       - httpApi:
           path: /
           method: get
+    authorizer:
+      arn: arn:aws:cognito-idp:ap-southeast-1:368894314638:userpool/ap-southeast-1_1w7XYu9hm
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-deployment-bucket
