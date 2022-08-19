@@ -15,11 +15,9 @@ provider:
     cors: true
     authorizers:
       cognitoAuth:
-        type: 'cognito'
-        userPoolArn: 'arn:aws:cognito-idp:ap-southeast-1:368894314638:userpool/ap-southeast-1_1w7XYu9hm'
-        userPoolClientId: '73g7s1vkbgf7vgknimupgaghsn'
-        userPoolDomain: 'averman.auth.ap-southeast-1.amazoncognito.com'
-        scope: 'openid email profile'
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.ap-southeast-1.amazonaws.com/1w7XYu9hm
 
 functions:
   hello:
@@ -28,9 +26,7 @@ functions:
       - httpApi:
           path: /
           method: get
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId: { Ref: cognitoAuth }
+          authorizer: cognitoAuth
 custom:
   customDomain:
     domainName: api.averism.com
@@ -38,6 +34,7 @@ custom:
     createRoute53Record: true
     certificateName: 'api.averism.com'
     autoDomain: true
+
 plugins:
   - serverless-plugin-typescript
   - serverless-deployment-bucket
