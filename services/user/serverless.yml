@@ -27,7 +27,7 @@ custom:
   customDomain:
     domainName: sls.averism.com
     basePath: ''
-    stage: ${self:provider.stage}
+    stage: 'prod'
     createRoute53Record: true
 plugins:
   - serverless-plugin-typescript
